@@ -26,7 +26,7 @@ html,body{margin:0;background:var(--bg);color:var(--text);
   font:16px/1.45 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,sans-serif}
 button{font:inherit;cursor:pointer;color:inherit}
 header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
-  padding:calc(env(safe-area-inset-top) + 14px) 16px 40px}
+  padding:calc(env(safe-area-inset-top) + 14px) 16px 72px}
 .kopf{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:12px}
 .logo{width:42px;height:42px;border-radius:11px;background:#fff;color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:23px;flex:none}
 .titel small{display:block;font-size:10.5px;letter-spacing:.16em;opacity:.8;font-weight:600}
@@ -37,38 +37,39 @@ header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
 .rund.dreht svg{animation:d 1s linear infinite}
 @keyframes d{to{transform:rotate(360deg)}}
 .stand{max-width:760px;margin:6px auto 0;font-size:12.5px;opacity:.85}
-main{max-width:760px;margin:-28px auto 0;padding:0 12px calc(env(safe-area-inset-bottom) + 24px)}
-.kacheln{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.kachel{background:var(--card);border-radius:14px;padding:11px 12px;box-shadow:var(--shadow)}
-.kachel small{color:var(--muted);font-size:11.5px;font-weight:600;display:block}
-.kachel strong{font-size:19px;font-variant-numeric:tabular-nums}
-.karte{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:14px;margin-top:12px}
-.karte h3{margin:0 0 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+main{max-width:760px;margin:-58px auto 0;padding:0 12px calc(env(safe-area-inset-bottom) + 24px)}
 .meldung{border-radius:10px;padding:10px 12px;margin-top:12px;font-size:14px}
 .meldung.v{background:var(--redbg);color:var(--red)} .meldung.i{background:var(--soft);color:var(--muted)}
-/* Jahre und Monate */
-.jahr{border-top:1px solid var(--line)} .jahr:first-of-type{border-top:0}
-.jkopf{width:100%;border:0;background:none;display:flex;align-items:center;gap:10px;padding:12px 4px;text-align:left}
-.jkopf .pfeil{color:var(--muted);transition:transform .15s;width:14px}
-.jahr.auf .jkopf .pfeil{transform:rotate(90deg)}
-.jkopf b{font-size:18px}
-.zahl{margin-left:auto;text-align:right;line-height:1.2;font-variant-numeric:tabular-nums}
-.zahl b{display:block;font-size:15px} .zahl small{color:var(--muted);font-size:12px}
-.monate{display:none;grid-template-columns:repeat(2,1fr);gap:6px;padding:0 0 12px}
-.jahr.auf .monate{display:grid}
-.mon{border:0;background:var(--soft);border-radius:10px;padding:9px 10px;text-align:left;display:flex;flex-direction:column}
-.mon span{font-weight:600;font-size:14px} .mon small{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
-.mon.an{background:var(--brand);color:#fff} .mon.an small{color:rgba(255,255,255,.85)}
+.karte{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:14px;margin-top:12px}
+.karte h3{margin:0 0 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+/* Diagramm */
+.diagramm{background:var(--card);border-radius:18px;padding:16px;box-shadow:0 6px 20px rgba(20,40,80,.12)}
+.dkopf{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;color:var(--muted);font-weight:600}
+.dkopf b{color:var(--text);font-size:15px;font-variant-numeric:tabular-nums}
+.jahre{display:flex;gap:6px;overflow-x:auto;margin:-2px 0 10px;scrollbar-width:none}
+.jahre button{flex:none;border:0;border-radius:99px;padding:5px 13px;background:var(--soft);color:var(--muted);font-weight:600;font-size:13.5px}
+.jahre button.an{background:var(--brand);color:#fff}
+.balken{display:flex;align-items:flex-end;gap:4px;height:130px;margin-top:14px}
+.bar{flex:1;min-width:0;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:100%}
+.bar i{width:100%;border-radius:5px 5px 2px 2px;background:#c9d7ef;min-height:3px}
+.bar.leer i{background:var(--line)} .bar.leer{cursor:default}
+.bar.an i{background:var(--brand)}
+.bar small{font-size:10px;color:var(--muted)} .bar.an small{color:var(--brand);font-weight:700}
+.bar em{font-style:normal;font-size:9.5px;color:var(--brand);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (prefers-color-scheme:dark){.bar i{background:#2a3d5e}}
 /* Fahrten */
-.fahrt{display:flex;align-items:center;gap:10px;padding:10px 2px;border-top:1px solid var(--line)}
-.fahrt:first-of-type{border-top:0}
+.ltitel{margin:20px 6px 6px;font-size:13px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between}
+.ltitel b{color:var(--text)}
+.fahrt{background:var(--card);border-radius:14px;padding:12px 14px;margin-top:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(20,40,80,.06)}
 .fahrt .links{flex:1;min-width:0}
-.fahrt .tag{font-weight:700;font-size:15px}
-.fahrt .info{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
-.kz{display:inline-block;border:1.5px solid var(--text);border-radius:5px;padding:0 6px;font-weight:700;font-size:12.5px;letter-spacing:.03em;margin-top:3px;white-space:nowrap}
-.fahrt .km{text-align:right;font-variant-numeric:tabular-nums}
-.fahrt .km b{font-size:17px;display:block} .fahrt .km small{color:var(--muted);font-size:11.5px}
-.summe{display:flex;justify-content:space-between;border-top:2px solid var(--text);margin-top:4px;padding-top:10px;font-weight:700}
+.fahrt .tag{font-weight:700;font-size:15.5px}
+.fahrt .tag span{color:var(--muted);font-weight:600;font-size:13px;font-variant-numeric:tabular-nums}
+.kz{display:inline-flex;border:2px solid #16202d;border-radius:5px;overflow:hidden;font-weight:800;font-size:13px;margin-top:5px;background:#fff;color:#16202d;white-space:nowrap}
+.kz em{background:#1f4fbf;color:#fc0;font-style:normal;font-size:8px;padding:2px 3px;display:flex;align-items:flex-end}
+.kz span{padding:1px 7px;letter-spacing:.04em}
+.fahrt .km{text-align:right;font-variant-numeric:tabular-nums;flex:none}
+.fahrt .km b{font-size:20px;color:var(--brand);display:block;line-height:1.15} .fahrt .km small{color:var(--muted);font-size:11.5px}
+@media (prefers-color-scheme:dark){.fahrt .km b{color:#6ea0ff}.bar.an i{background:#4f86ea}.bar.an small,.bar em{color:#6ea0ff}}
 /* Einrichtung */
 .einrichten label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px}
 .einrichten input{font:inherit;font-size:16px;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--text)}
@@ -191,31 +192,30 @@ function zeigen(){
   if (!jahre.length){ main.innerHTML = '<div class="karte">Noch keine Fahrten im Fahrtenbuch.</div>'; return; }
   const alleMonate = jahre.flatMap(j => j.monate);
   if (!alleMonate.some(m => m.key === gewaehlt)) gewaehlt = alleMonate[0].key;
-  if (offen === null) offen = gewaehlt.slice(0, 4);
+  if (!jahre.some(j => j.jahr === offen)) offen = gewaehlt.slice(0, 4);
+  const J = jahre.find(j => j.jahr === offen);
   const M = alleMonate.find(m => m.key === gewaehlt);
-  const dieses = jahre[0];
 
-  let h = `<div class="kacheln">
-    <div class="kachel"><small>Fahrten</small><strong>${tsd(FB.fahrten.length)}</strong></div>
-    <div class="kachel"><small>km ${dieses.jahr}</small><strong>${tsd(dieses.km)}</strong></div>
-    <div class="kachel"><small>km ${esc(M.name)}</small><strong>${tsd(M.km)}</strong></div></div>`;
-  if (meldung) h += `<div class="meldung v">${esc(meldung)}</div>`;
-
-  h += `<div class="karte"><h3>Jahr und Monat</h3>${jahre.map(j => `<div class="jahr ${offen === j.jahr ? 'auf' : ''}">
-    <button class="jkopf" data-jahr="${j.jahr}"><span class="pfeil">▸</span><b>${j.jahr}</b>
-      <span class="zahl"><b>${tsd(j.km)} km</b><small>${tsd(j.fahrten)} Fahrten</small></span></button>
-    <div class="monate">${j.monate.map(m => `<button class="mon ${m.key === gewaehlt ? 'an' : ''}" data-monat="${m.key}">
-      <span>${m.name}</span><small>${tsd(m.km)} km · ${m.fahrten.length} Fahrten</small></button>`).join('')}</div></div>`).join('')}</div>`;
+  let h = meldung ? `<div class="meldung v" style="margin:0 0 12px">${esc(meldung)}</div>` : '';
+  const max = Math.max(1, ...J.monate.map(m => m.km));
+  h += `<div class="diagramm">
+    ${jahre.length > 1 ? `<div class="jahre">${jahre.map(j => `<button data-jahr="${j.jahr}" class="${j.jahr === offen ? 'an' : ''}">${j.jahr}</button>`).join('')}</div>` : ''}
+    <div class="dkopf"><span>${J.jahr} · ${tsd(J.km)} km · ${tsd(J.fahrten)} Fahrten</span>
+      ${M.key.startsWith(J.jahr) ? `<b>${esc(M.name.slice(0, 3))}: ${tsd(M.km)} km</b>` : ''}</div>
+    <div class="balken">${MONATE.map((n, i) => {
+      const key = `${J.jahr}-${String(i + 1).padStart(2, '0')}`, m = J.monate.find(x => x.key === key);
+      const an = key === gewaehlt;
+      return `<button class="bar${m ? '' : ' leer'}${an ? ' an' : ''}" ${m ? `data-monat="${key}"` : 'disabled'} aria-label="${n}">
+        ${an ? `<em>${tsd(m.km)}</em>` : ''}<i style="height:${m ? Math.max(3, m.km / max * 78) : 2}%"></i><small>${n.slice(0, 3)}</small></button>`;
+    }).join('')}</div></div>`;
 
   const fahrten = M.fahrten.slice().sort((a, b) => b.beginn.localeCompare(a.beginn));   // neueste oben
-  h += `<div class="karte" id="liste"><h3>${esc(M.name)} ${M.key.slice(0, 4)}</h3>
+  h += `<div id="liste"><div class="ltitel"><span>${esc(M.name)} ${M.key.slice(0, 4)} · ${fahrten.length} Fahrten</span><b>${tsd(M.km)} km</b></div>
     ${fahrten.map(f => `<div class="fahrt"><div class="links">
-        <div class="tag">${f.t.wt} ${f.t.d}.${f.t.m}.</div>
-        <div class="info">${f.t.hm} – ${f.ende.hm}</div>
-        <span class="kz">${esc(f.kennzeichen)}</span></div>
-      <div class="km"><b>${f.km === null ? '–' : tsd(f.km) + ' km'}</b><small>${tsd(f.km_beginn)} → ${tsd(f.km_ende)}</small></div></div>`).join('')}
-    <div class="summe"><span>Summe ${esc(M.name)}</span><span>${tsd(M.km)} km</span></div></div>
-    <p class="klein">Kilometerstände vom Fahrtenschreiber beim Stecken und Ziehen der Karte. Neue Fahrten kommen,
+        <div class="tag">${f.t.wt}, ${f.t.d}.${f.t.m}. <span>${f.t.hm}–${f.ende.hm}</span></div>
+        <div class="kz"><em>D</em><span>${esc(f.kennzeichen)}</span></div></div>
+      <div class="km"><b>${f.km === null ? '–' : tsd(f.km)}</b><small>${f.km === null ? '' : 'km · '}bis ${tsd(f.km_ende)}</small></div></div>`).join('')}</div>
+    <p class="klein" style="margin:14px 6px">Kilometerstände vom Fahrtenschreiber beim Stecken und Ziehen der Karte. Neue Fahrten kommen,
       sobald die Karte am Laptop eingelesen wurde.</p>`;
   main.innerHTML = h;
 }
@@ -254,8 +254,8 @@ function einrichtung(alt){
 /* ---------- Bedienung ---------- */
 main.addEventListener('click', ev => {
   const j = ev.target.closest('[data-jahr]'), m = ev.target.closest('[data-monat]');
-  if (j){ offen = offen === j.dataset.jahr ? '' : j.dataset.jahr; zeigen(); }
-  if (m){ gewaehlt = m.dataset.monat; zeigen(); document.getElementById('liste').scrollIntoView({behavior: 'smooth', block: 'start'}); }
+  if (j){ offen = j.dataset.jahr; const J = gruppieren(FB.fahrten).find(x => x.jahr === offen); if (J && !gewaehlt.startsWith(offen)) gewaehlt = J.monate[0].key; zeigen(); }
+  if (m){ gewaehlt = m.dataset.monat; zeigen(); }
 });
 document.getElementById('aktualisieren').onclick = () => aktualisieren();
 document.getElementById('einstellungen').onclick = () => { meldung = ''; einrichtung(); };

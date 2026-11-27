@@ -1,5 +1,5 @@
 // Offline-Fähigkeit: nur die App selbst wird zwischengespeichert, nie die Fahrtenbuch-Daten.
-const VERSION = 'fahrtenbuch-v1';
+const VERSION = 'fahrtenbuch-v2';
 const DATEIEN = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
