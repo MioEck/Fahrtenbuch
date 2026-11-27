@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2468d6"/>
+      <stop offset="1" stop-color="#123f8c"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#g)"/>
+  <!-- weißes R -->
+  <path fill="#fff" fill-rule="evenodd"
+        d="M78 34h58c30 0 50 17 50 44 0 19-10 33-27 40l30 52h-30l-26-47H104v47H78zM104 56v52h30c17 0 26-9 26-26s-9-26-26-26z"/>
+  <!-- Symbol im R: Fahrtenbuch (aufgeschlagenes Buch mit Zeilen) -->
+  <rect x="110" y="62" width="44" height="32" rx="4" fill="#fff" stroke="#1c5cc4" stroke-width="4"/>
+  <path d="M132 64v28" stroke="#1c5cc4" stroke-width="3"/>
+  <path d="M116 71h11M116 78h11M116 85h8M137 71h11M137 78h11M137 85h8" stroke="#1c5cc4" stroke-width="2.6" stroke-linecap="round"/>
+  <text x="128" y="200" text-anchor="middle" fill="#fff" font-family="Inter, Cantarell, Arial, sans-serif"
+        font-size="20" font-weight="700" letter-spacing="2.5">DER RIESEBYER</text>
+  <text x="128" y="228" text-anchor="middle" fill="#fff" font-family="Inter, Cantarell, Arial, sans-serif"
+        font-size="20" font-weight="500" opacity=".9">Fahrtenbuch</text>
+</svg>

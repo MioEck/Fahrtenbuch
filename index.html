@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fahrtenbuch</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fahrtenbuch">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1c5cc4">
+<style>
+:root{
+  --bg:#eef2f7;--card:#fff;--text:#16202d;--muted:#687587;--line:#e1e6ee;--soft:#f5f7fb;
+  --brand:#1c5cc4;--brand2:#123f8c;--red:#d23b3b;--redbg:#fdeeee;--green:#1f8a56;--greenbg:#e6f6ed;
+  --shadow:0 1px 2px rgba(20,30,50,.06),0 4px 14px rgba(20,30,50,.06);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0d1218;--card:#161e29;--text:#e6ecf3;--muted:#93a1b4;--line:#253042;--soft:#1b2533;
+  --redbg:#3a1c1f;--greenbg:#12301f;--red:#ff6b6b;--green:#4fd18b;--shadow:0 1px 2px rgba(0,0,0,.3);
+}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.45 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,sans-serif}
+button{font:inherit;cursor:pointer;color:inherit}
+header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
+  padding:calc(env(safe-area-inset-top) + 14px) 16px 40px}
+.kopf{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:11px;background:#fff;color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:23px;flex:none}
+.titel small{display:block;font-size:10.5px;letter-spacing:.16em;opacity:.8;font-weight:600}
+.titel h1{margin:0;font-size:21px}
+.kopf .rechts{margin-left:auto;display:flex;gap:6px}
+.rund{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center}
+.rund svg{width:20px;height:20px}
+.rund.dreht svg{animation:d 1s linear infinite}
+@keyframes d{to{transform:rotate(360deg)}}
+.stand{max-width:760px;margin:6px auto 0;font-size:12.5px;opacity:.85}
+main{max-width:760px;margin:-28px auto 0;padding:0 12px calc(env(safe-area-inset-bottom) + 24px)}
+.kacheln{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kachel{background:var(--card);border-radius:14px;padding:11px 12px;box-shadow:var(--shadow)}
+.kachel small{color:var(--muted);font-size:11.5px;font-weight:600;display:block}
+.kachel strong{font-size:19px;font-variant-numeric:tabular-nums}
+.karte{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:14px;margin-top:12px}
+.karte h3{margin:0 0 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.meldung{border-radius:10px;padding:10px 12px;margin-top:12px;font-size:14px}
+.meldung.v{background:var(--redbg);color:var(--red)} .meldung.i{background:var(--soft);color:var(--muted)}
+/* Jahre und Monate */
+.jahr{border-top:1px solid var(--line)} .jahr:first-of-type{border-top:0}
+.jkopf{width:100%;border:0;background:none;display:flex;align-items:center;gap:10px;padding:12px 4px;text-align:left}
+.jkopf .pfeil{color:var(--muted);transition:transform .15s;width:14px}
+.jahr.auf .jkopf .pfeil{transform:rotate(90deg)}
+.jkopf b{font-size:18px}
+.zahl{margin-left:auto;text-align:right;line-height:1.2;font-variant-numeric:tabular-nums}
+.zahl b{display:block;font-size:15px} .zahl small{color:var(--muted);font-size:12px}
+.monate{display:none;grid-template-columns:repeat(2,1fr);gap:6px;padding:0 0 12px}
+.jahr.auf .monate{display:grid}
+.mon{border:0;background:var(--soft);border-radius:10px;padding:9px 10px;text-align:left;display:flex;flex-direction:column}
+.mon span{font-weight:600;font-size:14px} .mon small{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.mon.an{background:var(--brand);color:#fff} .mon.an small{color:rgba(255,255,255,.85)}
+/* Fahrten */
+.fahrt{display:flex;align-items:center;gap:10px;padding:10px 2px;border-top:1px solid var(--line)}
+.fahrt:first-of-type{border-top:0}
+.fahrt .links{flex:1;min-width:0}
+.fahrt .tag{font-weight:700;font-size:15px}
+.fahrt .info{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.kz{display:inline-block;border:1.5px solid var(--text);border-radius:5px;padding:0 6px;font-weight:700;font-size:12.5px;letter-spacing:.03em;margin-top:3px;white-space:nowrap}
+.fahrt .km{text-align:right;font-variant-numeric:tabular-nums}
+.fahrt .km b{font-size:17px;display:block} .fahrt .km small{color:var(--muted);font-size:11.5px}
+.summe{display:flex;justify-content:space-between;border-top:2px solid var(--text);margin-top:4px;padding-top:10px;font-weight:700}
+/* Einrichtung */
+.einrichten label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px}
+.einrichten input{font:inherit;font-size:16px;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--text)}
+.knopf{width:100%;border:0;border-radius:12px;padding:13px;background:var(--brand);color:#fff;font-weight:700;margin-top:4px}
+.knopf.zweit{background:var(--soft);color:var(--text)}
+.klein{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="kopf">
+    <div class="logo">R</div>
+    <div class="titel"><small>DER RIESEBYER</small><h1>Fahrtenbuch</h1></div>
+    <div class="rechts">
+      <button class="rund" id="aktualisieren" title="Aktualisieren" aria-label="Aktualisieren">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 4v5h-5"/></svg></button>
+      <button class="rund" id="einstellungen" title="Einstellungen" aria-label="Einstellungen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+    </div>
+  </div>
+  <div class="stand" id="stand"></div>
+</header>
+<main id="main"></main>
+
+<script>
+'use strict';
+const SPEICHER = 'fahrtenbuch-einstellungen', DATEN = 'fahrtenbuch-daten';
+const MONATE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const WT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const main = document.getElementById('main');
+let FB = null, gewaehlt = null, offen = null, laedt = false, letzterAbruf = 0, meldung = '';
+
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tsd = n => Number(n).toLocaleString('de-DE');
+const lesen = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } };
+const schreiben = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+
+// Zeit in deutscher Ortszeit zerlegen
+const fmt = new Intl.DateTimeFormat('de-DE', {timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit',
+  day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short', hourCycle: 'h23'});
+function teile(iso){
+  const p = Object.fromEntries(fmt.formatToParts(new Date(iso)).map(x => [x.type, x.value]));
+  return {j: p.year, m: p.month, d: p.day, hm: `${p.hour}:${p.minute}`, wt: p.weekday.replace('.', '')};
+}
+
+/* ---------- Entschlüsseln (AES-256-GCM, Schlüssel per PBKDF2-SHA256) ---------- */
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function entschluesseln(paket, passwort){
+  const basis = await crypto.subtle.importKey('raw', new TextEncoder().encode(passwort), 'PBKDF2', false, ['deriveKey']);
+  const schluessel = await crypto.subtle.deriveKey(
+    {name: 'PBKDF2', salt: b64(paket.salt), iterations: paket.iter, hash: 'SHA-256'},
+    basis, {name: 'AES-GCM', length: 256}, false, ['decrypt']);
+  const klar = await crypto.subtle.decrypt({name: 'AES-GCM', iv: b64(paket.iv)}, schluessel, b64(paket.daten));
+  return JSON.parse(new TextDecoder().decode(klar));
+}
+
+/* ---------- Abrufen von GitHub (privates Repository, Lese-Schlüssel) ---------- */
+async function abrufen(e){
+  const r = await fetch(`https://api.github.com/repos/${e.repo}/contents/fahrtenbuch.enc.json`, {
+    headers: {Authorization: `Bearer ${e.token}`, Accept: 'application/vnd.github.raw+json'}, cache: 'no-store'});
+  if (r.status === 401) throw new Error('Der Zugangsschlüssel ist ungültig oder abgelaufen.');
+  if (r.status === 404) throw new Error('Fahrtenbuch nicht gefunden – entweder hat der Laptop noch nichts hochgeladen oder der Schlüssel hat keinen Zugriff auf dieses Repository.');
+  if (!r.ok) throw new Error(`GitHub antwortet ${r.status}.`);
+  return r.json();
+}
+
+async function aktualisieren(stumm){
+  const e = lesen(SPEICHER);
+  if (!e || laedt) return;
+  laedt = true; knopf(true);
+  try {
+    const paket = await abrufen(e);
+    let daten;
+    try { daten = await entschluesseln(paket, e.passwort); }
+    catch(x){ throw new Error('Das Passwort passt nicht – wurde es am Laptop geändert? Bitte in den Einstellungen neu eintragen.'); }
+    schreiben(DATEN, paket);          // verschlüsselt gespeichert, für unterwegs ohne Netz
+    FB = daten; FB.stand = paket.stand; meldung = '';
+    letzterAbruf = Date.now();
+  } catch(x){
+    meldung = x.message || String(x);
+    if (x instanceof TypeError) meldung = 'Keine Verbindung – es wird der zuletzt geladene Stand angezeigt.';
+  }
+  laedt = false; knopf(false);
+  zeigen();
+}
+function knopf(an){ document.getElementById('aktualisieren').classList.toggle('dreht', an); }
+
+/* ---------- Auswertung ---------- */
+function gruppieren(fahrten){
+  const jahre = new Map();
+  for (const f of fahrten){
+    const t = teile(f.beginn), diff = f.km_ende - f.km_beginn, gueltig = diff >= 0 && diff < 5000;
+    const mk = `${t.j}-${t.m}`;
+    if (!jahre.has(t.j)) jahre.set(t.j, {jahr: t.j, km: 0, fahrten: 0, monate: new Map()});
+    const J = jahre.get(t.j);
+    if (!J.monate.has(mk)) J.monate.set(mk, {key: mk, name: MONATE[+t.m - 1], km: 0, fahrten: []});
+    const M = J.monate.get(mk);
+    M.fahrten.push({...f, t, ende: teile(f.ende), km: gueltig ? diff : null});
+    if (gueltig){ M.km += diff; J.km += diff; }
+    J.fahrten++;
+  }
+  return [...jahre.values()].sort((a, b) => b.jahr.localeCompare(a.jahr)).map(J => ({...J,
+    monate: [...J.monate.values()].sort((a, b) => b.key.localeCompare(a.key))}));
+}
+
+/* ---------- Anzeige ---------- */
+function zeigen(){
+  const e = lesen(SPEICHER);
+  const stand = document.getElementById('stand');
+  if (!e){ stand.textContent = ''; return einrichtung(); }
+  if (!FB){
+    stand.textContent = '';
+    main.innerHTML = `<div class="karte">${laedt ? 'Fahrtenbuch wird geladen …' : 'Noch keine Daten.'}</div>
+      ${meldung ? `<div class="meldung v">${esc(meldung)}</div>` : ''}`;
+    return;
+  }
+  const st = FB.stand ? teile(FB.stand) : null;
+  stand.textContent = `${FB.fahrer}${st ? ` · Stand vom Laptop: ${st.d}.${st.m}.${st.j} ${st.hm}` : ''}`;
+  const jahre = gruppieren(FB.fahrten);
+  if (!jahre.length){ main.innerHTML = '<div class="karte">Noch keine Fahrten im Fahrtenbuch.</div>'; return; }
+  const alleMonate = jahre.flatMap(j => j.monate);
+  if (!alleMonate.some(m => m.key === gewaehlt)) gewaehlt = alleMonate[0].key;
+  if (offen === null) offen = gewaehlt.slice(0, 4);
+  const M = alleMonate.find(m => m.key === gewaehlt);
+  const dieses = jahre[0];
+
+  let h = `<div class="kacheln">
+    <div class="kachel"><small>Fahrten</small><strong>${tsd(FB.fahrten.length)}</strong></div>
+    <div class="kachel"><small>km ${dieses.jahr}</small><strong>${tsd(dieses.km)}</strong></div>
+    <div class="kachel"><small>km ${esc(M.name)}</small><strong>${tsd(M.km)}</strong></div></div>`;
+  if (meldung) h += `<div class="meldung v">${esc(meldung)}</div>`;
+
+  h += `<div class="karte"><h3>Jahr und Monat</h3>${jahre.map(j => `<div class="jahr ${offen === j.jahr ? 'auf' : ''}">
+    <button class="jkopf" data-jahr="${j.jahr}"><span class="pfeil">▸</span><b>${j.jahr}</b>
+      <span class="zahl"><b>${tsd(j.km)} km</b><small>${tsd(j.fahrten)} Fahrten</small></span></button>
+    <div class="monate">${j.monate.map(m => `<button class="mon ${m.key === gewaehlt ? 'an' : ''}" data-monat="${m.key}">
+      <span>${m.name}</span><small>${tsd(m.km)} km · ${m.fahrten.length} Fahrten</small></button>`).join('')}</div></div>`).join('')}</div>`;
+
+  const fahrten = M.fahrten.slice().sort((a, b) => b.beginn.localeCompare(a.beginn));   // neueste oben
+  h += `<div class="karte" id="liste"><h3>${esc(M.name)} ${M.key.slice(0, 4)}</h3>
+    ${fahrten.map(f => `<div class="fahrt"><div class="links">
+        <div class="tag">${f.t.wt} ${f.t.d}.${f.t.m}.</div>
+        <div class="info">${f.t.hm} – ${f.ende.hm}</div>
+        <span class="kz">${esc(f.kennzeichen)}</span></div>
+      <div class="km"><b>${f.km === null ? '–' : tsd(f.km) + ' km'}</b><small>${tsd(f.km_beginn)} → ${tsd(f.km_ende)}</small></div></div>`).join('')}
+    <div class="summe"><span>Summe ${esc(M.name)}</span><span>${tsd(M.km)} km</span></div></div>
+    <p class="klein">Kilometerstände vom Fahrtenschreiber beim Stecken und Ziehen der Karte. Neue Fahrten kommen,
+      sobald die Karte am Laptop eingelesen wurde.</p>`;
+  main.innerHTML = h;
+}
+
+function einrichtung(alt){
+  alt = alt || lesen(SPEICHER) || {};
+  main.innerHTML = `<div class="karte einrichten"><h3>Einrichten</h3>
+    <p class="klein" style="margin-top:0">Einmalig eintragen. Die Angaben bleiben nur auf diesem Gerät.</p>
+    <label>Privates Repository<input id="eRepo" value="${esc(alt.repo || 'MioEck/Fahrtenbuch-Daten')}" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+    <label>Zugangsschlüssel (nur Lesen)<input id="eToken" type="password" value="${esc(alt.token || '')}" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+    <label>Passwort der Verschlüsselung<input id="ePw" type="password" value="${esc(alt.passwort || '')}"></label>
+    ${meldung ? `<div class="meldung v" style="margin:0 0 10px">${esc(meldung)}</div>` : ''}
+    <button class="knopf" id="eOk">Speichern und laden</button>
+    ${lesen(SPEICHER) ? '<button class="knopf zweit" id="eAbbr" style="margin-top:8px">Abbrechen</button>' : ''}
+    ${lesen(SPEICHER) ? '<button class="knopf zweit" id="eWeg" style="margin-top:8px;color:var(--red)">Von diesem Gerät entfernen</button>' : ''}</div>`;
+  document.getElementById('eOk').onclick = async () => {
+    const neu = {repo: document.getElementById('eRepo').value.trim().replace(/^\/|\/$/g, ''),
+      token: document.getElementById('eToken').value.trim(), passwort: document.getElementById('ePw').value};
+    if (!neu.repo.includes('/') || !neu.token || !neu.passwort){ meldung = 'Bitte alle drei Felder ausfüllen.'; return einrichtung(neu); }
+    const knopfOk = document.getElementById('eOk'); knopfOk.textContent = 'Wird geprüft …'; knopfOk.disabled = true;
+    try {
+      const paket = await abrufen(neu);
+      let daten;
+      try { daten = await entschluesseln(paket, neu.passwort); }
+      catch(x){ throw new Error('Das Passwort passt nicht zum hochgeladenen Fahrtenbuch.'); }
+      schreiben(SPEICHER, neu); schreiben(DATEN, paket);
+      FB = daten; FB.stand = paket.stand; meldung = ''; letzterAbruf = Date.now();
+      zeigen();
+    } catch(x){ meldung = x instanceof TypeError ? 'Keine Verbindung.' : x.message; einrichtung(neu); }
+  };
+  const abbr = document.getElementById('eAbbr'); if (abbr) abbr.onclick = () => { meldung = ''; zeigen(); };
+  const weg = document.getElementById('eWeg');
+  if (weg) weg.onclick = () => { localStorage.removeItem(SPEICHER); localStorage.removeItem(DATEN); FB = null; meldung = ''; zeigen(); };
+}
+
+/* ---------- Bedienung ---------- */
+main.addEventListener('click', ev => {
+  const j = ev.target.closest('[data-jahr]'), m = ev.target.closest('[data-monat]');
+  if (j){ offen = offen === j.dataset.jahr ? '' : j.dataset.jahr; zeigen(); }
+  if (m){ gewaehlt = m.dataset.monat; zeigen(); document.getElementById('liste').scrollIntoView({behavior: 'smooth', block: 'start'}); }
+});
+document.getElementById('aktualisieren').onclick = () => aktualisieren();
+document.getElementById('einstellungen').onclick = () => { meldung = ''; einrichtung(); };
+// Automatisch aktualisieren, sobald die App wieder in den Vordergrund kommt
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && Date.now() - letzterAbruf > 30000) aktualisieren(true);
+});
+
+/* ---------- Start ---------- */
+(async () => {
+  const e = lesen(SPEICHER), paket = lesen(DATEN);
+  if (e && paket){   // zuerst den gespeicherten Stand zeigen, dann neu holen
+    try { FB = await entschluesseln(paket, e.passwort); FB.stand = paket.stand; } catch(x){}
+  }
+  zeigen();
+  if (e) aktualisieren(true);
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+})();
+</script>
+</body>
+</html>
